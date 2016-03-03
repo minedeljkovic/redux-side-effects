@@ -74,7 +74,6 @@ export default rootReducer => (stateWithEffects, action) => {
     invariant(!isUndefined(first(appState)),
       `Root reducer does not return new application state. Undefined is returned`);
 
-    console.log('[stateWithEffects]', stateWithEffects);
     return new AppStateWithEffects(first(appState), previousEffects.concat(effects));
   } else {
     console.warn(
