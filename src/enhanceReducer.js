@@ -61,6 +61,7 @@ export default rootReducer => (stateWithEffects, action) => {
   const reduction = rootReducer(stateWithEffects.getAppState(), action);
 
   if (isIterable(reduction)) {
+    const previousEffects = stateWithEffects.getEffects() || [];
     // Iterable returned by Root reducer is mapped into array of values.
     // Last value in the array is reduced application state all the other values
     // are just side effects.
@@ -73,7 +74,8 @@ export default rootReducer => (stateWithEffects, action) => {
     invariant(!isUndefined(first(appState)),
       `Root reducer does not return new application state. Undefined is returned`);
 
-    return new AppStateWithEffects(first(appState), effects);
+    console.log('[stateWithEffects]', stateWithEffects);
+    return new AppStateWithEffects(first(appState), previousEffects.concat(effects));
   } else {
     console.warn(
       'createEffectCapableStore enhancer from redux-side-effects package is used, ' +
